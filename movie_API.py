@@ -1,47 +1,39 @@
 import requests
 import random
 
-# Clé API TMDB (remplacez 'YOUR_API_KEY' par votre clé réelle)
+# Define API key and base URL
 api_key = "9cbc4d8610399f5e4c023fe8a815716c"
-
-# URL de base de l'API TMDB pour la liste des films populaires
 base_url = 'https://api.themoviedb.org/3/movie/popular'
 
-# Paramètres de la requête
-params = {
-    'api_key': api_key,
-    'language': 'en-US',
-    'page': 1  # Vous pouvez ajuster la page si vous souhaitez obtenir plus de résultats
-}
-
+# Function to get movies based on popularity
 def movies(min_popularity=7):
-    # Ajout du paramètre de filtre pour la popularité
+    # Print the received min_popularity value for debugging
+    print(f"movies function received min_popularity: {min_popularity}")
+
+    # Set up request parameters
+    params = {
+        'api_key': api_key,
+        'language': 'en-US',
+        'page': 1
+    }
+
+    # Add popularity filter
     params['vote_average.gte'] = min_popularity
 
-    # Effectuer la requête API
+    # Make the API request
     response = requests.get(base_url, params=params)
 
-    # Supprimer le paramètre de filtre après la requête
+    # Remove the popularity filter after the request
     del params['vote_average.gte']
 
-    # Vérifier si la requête a réussi (code de statut 200)
+    # Check if the request was successful (status code 200)
     if response.status_code == 200:
-        # Extraire les données JSON de la réponse
+        # Extract movie data from the response
         data = response.json()
+        movies_list = data.get('results', [])
 
-        # Extraire la liste des films depuis les données
-        movies = data.get('results', [])
-
-        # Sélectionner 100 films au hasard
-        random_movies = random.sample(movies, min(100, len(movies)))
-
-        return random_movies
+        return movies_list[:100]
 
     else:
-        # Afficher un message d'erreur si la requête a échoué
-        print(f"Erreur de requête API: {response.status_code}")
-        print(response.text)
-
-# Utilisation de la fonction avec un filtre de popularité minimale (par exemple, 7)
-filtered_movies = movies(min_popularity=7)
-print(filtered_movies)
+        # Return an error message if the request failed
+        return {"error": f"API request error: {response.status_code}", "details": response.text}
