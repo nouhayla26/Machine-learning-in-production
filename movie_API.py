@@ -14,25 +14,26 @@ params = {
     'page': 1  # Vous pouvez ajuster la page si vous souhaitez obtenir plus de résultats
 }
 
-# Effectuer la requête API
-response = requests.get(base_url, params=params)
+    
+def movies(): 
+    
+    # Effectuer la requête API
+    response = requests.get(base_url, params=params)
 
-# Vérifier si la requête a réussi (code de statut 200)
-if response.status_code == 200 :
-    # Extraire les données JSON de la réponse
-    data = response.json()
+    # Vérifier si la requête a réussi (code de statut 200)
+    if response.status_code == 200 :
+        # Extraire les données JSON de la réponse
+        data = response.json()
 
-    # Extraire la liste des films depuis les données
-    movies = data.get('results', [])
+        # Extraire la liste des films depuis les données
+        movies = data.get('results', [])
 
-    # Sélectionner 100 films au hasard
-    random_movies = random.sample(movies, min(100, len(movies)))
+        # Sélectionner 100 films au hasard
+        random_movies = random.sample(movies, min(100, len(movies)))
 
-    # Afficher les titres des films sélectionnés
-    for movie in random_movies:
-        print(movie['title'])
+        return random_movies
 
-else:
-    # Afficher un message d'erreur si la requête a échoué
-    print(f"Erreur de requête API: {response.status_code}")
-    print(response.text)
+    else:
+        # Afficher un message d'erreur si la requête a échoué
+        print(f"Erreur de requête API: {response.status_code}")
+        print(response.text)
