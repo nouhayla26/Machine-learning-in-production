@@ -14,14 +14,18 @@ params = {
     'page': 1  # Vous pouvez ajuster la page si vous souhaitez obtenir plus de résultats
 }
 
-    
-def movies(): 
-    
+def movies(min_popularity=7):
+    # Ajout du paramètre de filtre pour la popularité
+    params['vote_average.gte'] = min_popularity
+
     # Effectuer la requête API
     response = requests.get(base_url, params=params)
 
+    # Supprimer le paramètre de filtre après la requête
+    del params['vote_average.gte']
+
     # Vérifier si la requête a réussi (code de statut 200)
-    if response.status_code == 200 :
+    if response.status_code == 200:
         # Extraire les données JSON de la réponse
         data = response.json()
 
@@ -37,3 +41,7 @@ def movies():
         # Afficher un message d'erreur si la requête a échoué
         print(f"Erreur de requête API: {response.status_code}")
         print(response.text)
+
+# Utilisation de la fonction avec un filtre de popularité minimale (par exemple, 7)
+filtered_movies = movies(min_popularity=7)
+print(filtered_movies)
