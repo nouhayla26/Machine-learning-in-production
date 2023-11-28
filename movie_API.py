@@ -14,7 +14,6 @@ params = {
     'page': 1  # Vous pouvez ajuster la page si vous souhaitez obtenir plus de résultats
 }
 
-movie_titles = []
     
 def movies(): 
     
@@ -31,15 +30,10 @@ def movies():
 
         # Sélectionner 100 films au hasard
         random_movies = random.sample(movies, min(100, len(movies)))
-        for movie in random_movies:
-            # Ajouter le titre du film à movie_titles
-            movie_titles.append(movie['title'])
-        
-        return movie_titles
+
+        return random_movies
 
     else:
         # Afficher un message d'erreur si la requête a échoué
         print(f"Erreur de requête API: {response.status_code}")
         print(response.text)
-        
-
