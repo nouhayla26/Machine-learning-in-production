@@ -1,0 +1,36 @@
+Documentation du Code
+
+Présentation générale
+
+Ce projet consiste en une application FastAPI qui utilise l'API The Movie Database (TMDb) pour récupérer des informations sur des films en fonction de divers critères tels que la popularité ou le genre.
+
+Le code est divisé en trois fichiers principaux :
+
+movie_api.py : Contient la fonction movies qui effectue une requête à l'API TMDb pour récupérer des films en fonction de critères spécifiques.
+
+create_api.py : Crée une application FastAPI avec un point d'entrée qui utilise la fonction movies pour récupérer une liste de films.
+
+main.py : Fournit également une application FastAPI avec un point d'entrée, mais filtre les films en fonction de la popularité.
+
+movie_api.py
+La fonction principale dans ce fichier est movies, qui prend en charge deux paramètres optionnels :
+
+min_popularity : Filtre les films en fonction de la popularité minimale.
+movie_genre : Filtre les films en fonction du genre.
+La fonction utilise l'API TMDb pour récupérer des informations sur les films et renvoie une liste de films sous forme de dictionnaires.
+
+create_api.py
+Ce fichier crée une application FastAPI avec un seul endpoint (/) qui utilise la fonction movies de movie_api.py. La liste complète de films est chargée au démarrage de l'application.
+
+L'endpoint peut être appelé avec le paramètre optionnel movie_genre pour filtrer les films en fonction du genre.
+
+main.py
+Fournit une alternative à create_api.py, également avec un seul endpoint (/). Cependant, cet endpoint filtre les films en fonction de la popularité minimale plutôt que du genre.
+
+Utilisation
+Exécuter l'application FastAPI en utilisant uvicorn ou un autre serveur compatible.
+Accéder à l'API en utilisant l'URL http://127.0.0.1:8000/.
+Pour filtrer par genre, ajouter le paramètre movie_genre à l'URL (ex : http://127.0.0.1:8000/?movie_genre=35).
+
+Le genre est codé en chiffre=nombre sur TMDB, nous pouvons aller voir le sur la documentation de l'API
+
